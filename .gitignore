@@ -1,3 +1,33 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Codespaces
+Marketplace
+Explore
+ 
+@Maik2805 
+Maik2805
+/
+mande_api
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+mande_api/.gitignore
+@Maik2805
+Maik2805 Initial commit
+Latest commit 3710d53 13 minutes ago
+ History
+ 1 contributor
+104 lines (76 sloc)  1.57 KB
+
 # Logs
 logs
 *.log
@@ -35,7 +65,7 @@ bower_components
 .lock-wscript
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
+build/
 
 # Dependency directories
 node_modules/
@@ -102,3 +132,22 @@ dist
 
 # TernJS port file
 .tern-port
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+mande_api/.gitignore at main · Maik2805/mande_api
+
+
+tmp/
+temp/
