@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm"
-import { Geometry } from 'geojson';
+import { Point } from 'geojson';
 import { MedioPago } from "./MedioPago";
 import { Servicio } from "./Servicio";
 import { LaborTrabajador } from "./LaborTrabajador";
@@ -41,7 +41,7 @@ export class Usuario {
     direccion: string
 
     @Column({ type: 'point' })
-    ubicacion: Geometry
+    ubicacion: Point
 
     @Column()
     estado: string
