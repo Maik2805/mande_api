@@ -7,6 +7,7 @@ import { AppRoutes } from "./routes";
 
 AppDataSource.initialize().then(async () => {
     //INICIA CON npm start
+    //nodemon --exec "npm run start"
 
     const app = express();
     app.use(bodyParser.json());

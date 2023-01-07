@@ -1,6 +1,8 @@
 import * as usuarioController from "./controller/UsuarioController";
 import * as laborController from "./controller/LaborController";
 import * as medioPagoController from "./controller/MedioPagoController";
+import * as servicioController from "./controller/ServicioController";
+import * as pagoController from "./controller/PagoController";
 
 export const AppRoutes = [
     {
@@ -52,6 +54,51 @@ export const AppRoutes = [
         path: "/medio_pago",
         method: "post",
         action: medioPagoController.save
-    }
+    },
+    {
+        path: "/servicios/all",
+        method: "get",
+        action: servicioController.all
+    },
+    {
+        path: "/servicios/find/:id",
+        method: "get",
+        action: servicioController.findById
+    },
+    {
+        path: "/servicios/findByCliente/:usuario",
+        method: "get",
+        action: servicioController.findByCliente
+    },
+    {
+        path: "/servicios/findByTrabajador/:usuario",
+        method: "get",
+        action: servicioController.findByTrabajador
+    },
+    {
+        path: "/servicios",
+        method: "post",
+        action: servicioController.save
+    },
+    {
+        path: "/pagos/all",
+        method: "get",
+        action: pagoController.all
+    },
+    {
+        path: "/pagos/findByServicio/:servicio",
+        method: "get",
+        action: pagoController.findByServicioId
+    },
+    {
+        path: "/pagos/findById/:id",
+        method: "get",
+        action: pagoController.findById
+    },
+    {
+        path: "/pagos",
+        method: "post",
+        action: pagoController.save
+    },
 ];
 

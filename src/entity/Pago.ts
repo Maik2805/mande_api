@@ -7,11 +7,15 @@ export class Pago {
     @PrimaryGeneratedColumn()
     id: number
 
-    @OneToOne(() => Servicio, (servicio) => servicio.pago)
+    @OneToOne(() => Servicio, (servicio) => servicio.pago, {
+        eager: true,
+    })
     @JoinColumn({ name: "id_servicio" })
     servicio: Servicio
 
-    @OneToOne(() => MedioPago, (medioPago) => medioPago.pago)
+    @OneToOne(() => MedioPago, (medioPago) => medioPago.pago, {
+        eager: true,
+    })
     @JoinColumn({ name: "id_medio_pago" })
     medioPago: MedioPago
 

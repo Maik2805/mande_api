@@ -12,11 +12,15 @@ export class Servicio {
     @JoinColumn({ name: "id_labor" })
     labor: Labor
 
-    @ManyToOne(() => Usuario, (usuario) => usuario.serviciosPrestados)
+    @ManyToOne(() => Usuario, (usuario) => usuario.serviciosPrestados, {
+        eager: true,
+    })
     @JoinColumn({ name: "id_trabajador" })
     trabajador: Usuario
 
-    @ManyToOne(() => Usuario, (usuario) => usuario.serviciosAdquiridos)
+    @ManyToOne(() => Usuario, (usuario) => usuario.serviciosAdquiridos, {
+        eager: true,
+    })
     @JoinColumn({ name: "id_cliente" })
     cliente: Usuario
 

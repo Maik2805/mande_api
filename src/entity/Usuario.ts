@@ -40,7 +40,20 @@ export class Usuario {
     @Column()
     direccion: string
 
-    @Column({ type: 'point' })
+    /**
+     * "ubicacion": {
+            "type": "Point",
+            "coordinates": [
+                Longitude,
+                Latitude
+            ]
+        }
+     */
+    @Column({
+        type: 'geometry', spatialFeatureType: 'Point',
+        srid: 4326,
+        nullable: true
+    })
     ubicacion: Point
 
     @Column()

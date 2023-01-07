@@ -1,16 +1,17 @@
 import { AppDataSource } from "../data-source";
 import { MedioPago } from "../entity/MedioPago";
 import { Request, Response } from "express";
+import * as medioPagoService from "../service/MedioPagoService"
 
 const medioPagoRepository = AppDataSource.getRepository(MedioPago);
 
 export async function all(req: Request, res: Response) {
-    const medioPago: MedioPago[] = await medioPagoRepository.find();
+    const medioPago: MedioPago[] = await medioPagoService.all();
     res.send(medioPago);
 };
 
 export async function findById(req: Request, res: Response) {
-    const medioPago: MedioPago = await medioPagoRepository.findOneBy({ id: req.params.id });
+    const medioPago: MedioPago = await medioPagoService.findById(req.params.id);
     if (!medioPago) {
         res.status(404);
         res.end();
@@ -20,13 +21,13 @@ export async function findById(req: Request, res: Response) {
 };
 
 export async function findByUsuario(req: Request, res: Response) {
-    const medioPago: MedioPago[] = await medioPagoRepository.findBy({ usuario: { celular: req.params.usuario } });
+    const medioPago: MedioPago[] = await medioPagoService.findByUsuario(req.params.usuario);
     res.send(medioPago);
 };
 
 export async function save(req: Request, res: Response) {
-    const newUsuario = medioPagoRepository.create(req.body);
-    await medioPagoRepository.save(newUsuario);
-    res.send(newUsuario);
+    const newMedioPago = medioPagoRepository.create(req.body);
+    await medioPagoService.save(newMedioPago);
+    res.send(newMedioPago);
 }
 
