@@ -14,12 +14,12 @@ export async function findById(id: number): Promise<Servicio> {
     return servicioRepository.findOneBy({ id: id });
 };
 
-export async function findByClienteId(clienteId: number): Promise<Servicio[]> {
-    return servicioRepository.findBy({ cliente: { celular: Equal(clienteId) } });
+export async function findByClienteId(clienteId: string): Promise<Servicio[]> {
+    return servicioRepository.findBy({ cliente: { celular: clienteId } });
 };
 
-export async function findByTrabajadorId(trabajadorId: number): Promise<Servicio[]> {
-    return servicioRepository.findBy({ trabajador: { celular: Equal(trabajadorId) } });
+export async function findByTrabajadorId(trabajadorId: string): Promise<Servicio[]> {
+    return servicioRepository.findBy({ trabajador: { celular: trabajadorId } });
     // const servicios: Servicio[] = await servicioRepository.findBy({ trabajador: { celular: req.params.usuario } });
     // const servicios: Servicio[] = await servicioRepository.find({
     //     where: {

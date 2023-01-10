@@ -3,8 +3,22 @@ import * as laborController from "./controller/LaborController";
 import * as medioPagoController from "./controller/MedioPagoController";
 import * as servicioController from "./controller/ServicioController";
 import * as pagoController from "./controller/PagoController";
+import * as loginController from "./controller/LoginController";
 
 export const AppRoutes = [
+    {
+        path: "/app/login",
+        method: "post",
+        action: loginController.login,
+        adminRequired: false,
+        notLogged: true
+    },
+    {
+        path: "/app/register",
+        method: "post",
+        action: loginController.register,
+        notLogged: true
+    },
     {
         path: "/usuarios/all",
         method: "get",

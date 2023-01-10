@@ -9,11 +9,10 @@ export async function all(): Promise<Usuario[]> {
 };
 
 export async function findById(id: string): Promise<Usuario> {
-    return userRepository.findOneBy({ celular: Equal(id) });
+    return userRepository.findOneBy({ celular: id });
 
 };
 
-export async function save(usuarios: Usuario[]) {
-    console.log(usuarios)
-    await userRepository.save(usuarios);
+export async function save(usuario: Usuario) {
+    await userRepository.save(usuario);
 }

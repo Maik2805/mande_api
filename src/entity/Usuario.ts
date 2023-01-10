@@ -8,7 +8,7 @@ import { LaborTrabajador } from "./LaborTrabajador";
 export class Usuario {
 
     @PrimaryColumn()
-    celular: String
+    celular: string
 
     @Column({ name: "tipo_documento" })
     tipoDocumento: string
@@ -24,6 +24,9 @@ export class Usuario {
 
     @Column({ name: "correo_electronico" })
     correoElectronico: string
+
+    @Column({ name: "passhash" })
+    password: string
 
     @Column({ type: 'timestamp', name: "fecha_nacimiento" })
     fechaNacimiento: Date
