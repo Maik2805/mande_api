@@ -26,7 +26,7 @@ AppDataSource.initialize().then(async () => {
                 jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
                     // console.log('Token Error: ', err)
                     if (err) return response.sendStatus(403)
-                    request.user = user
+                    request.user = user.usuario
                     // console.log(user)
                     if (route.adminRequired) {
                         if (!user.usuario.isAdmin) {

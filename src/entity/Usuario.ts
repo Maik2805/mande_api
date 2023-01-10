@@ -71,6 +71,8 @@ export class Usuario {
     @OneToMany(() => Servicio, (servicio) => servicio.cliente)
     serviciosAdquiridos: Servicio[]
 
-    @OneToMany(() => LaborTrabajador, (labor) => labor.usuario)
-    laborTrabajador!: LaborTrabajador[]
+    @OneToMany(() => LaborTrabajador, (labor) => labor.usuario, {
+        eager: true,
+    })
+    laborTrabajador: LaborTrabajador[]
 }

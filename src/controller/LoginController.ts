@@ -74,5 +74,5 @@ export async function register(req: Request, res: Response) {
 
 const generateAccessToken = (usuario: BasicUserInfo) => {
     // console.log(process.env.TOKEN_SECRET)
-    return jwt.sign({ usuario: usuario }, process.env.TOKEN_SECRET, { expiresIn: '6h' });
+    return jwt.sign({ usuario }, process.env.TOKEN_SECRET, { expiresIn: '6h' });
 }

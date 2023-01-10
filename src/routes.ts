@@ -35,6 +35,11 @@ export const AppRoutes = [
         action: usuarioController.save
     },
     {
+        path: "/usuarios/addLaborUsuario",
+        method: "post",
+        action: usuarioController.addLaborUsuario
+    },
+    {
         path: "/labores/all",
         method: "get",
         action: laborController.all
