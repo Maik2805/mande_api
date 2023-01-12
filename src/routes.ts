@@ -38,6 +38,10 @@ export const AppRoutes = [
         path: "/usuarios/addLaborUsuario",
         method: "post",
         action: usuarioController.addLaborUsuario
+    }, {
+        path: "/usuarios/inactiveLaborUsuario",
+        method: "post",
+        action: usuarioController.inactiveLaborUsuario
     },
     {
         path: "/labores/all",
@@ -48,6 +52,16 @@ export const AppRoutes = [
         path: "/labores/find/:id",
         method: "get",
         action: laborController.findById
+    },
+    {
+        path: "/labores/findByUsuario/:id",
+        method: "get",
+        action: laborController.findByUsuario
+    },
+    {
+        path: "/labores/disponibles",
+        method: "get",
+        action: laborController.listarDisponibles
     },
     {
         path: "/labores",

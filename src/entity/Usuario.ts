@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm"
+import { IsEmail } from "class-validator"
 import { Point } from 'geojson';
 import { MedioPago } from "./MedioPago";
 import { Servicio } from "./Servicio";
@@ -23,6 +24,7 @@ export class Usuario {
     apellido: string
 
     @Column({ name: "correo_electronico" })
+    @IsEmail()
     correoElectronico: string
 
     @Column({ name: "passhash" })

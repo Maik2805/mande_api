@@ -15,6 +15,16 @@ export async function findById(req: Request, res: Response) {
     res.send(labor);
 };
 
+export async function findByUsuario(req: Request, res: Response) {
+    const labor: Labor[] = await laborService.findByUsuario(req.params.id);
+    res.send(labor);
+};
+
+export async function listarDisponibles(req: Request, res: Response) {
+    const labor: Labor[] = await laborService.listarDisponibles();
+    res.send(labor);
+};
+
 export async function save(req: Request, res: Response) {
     const newLabor: Labor[] = laborRepository.create(req.body);
     await laborService.save(newLabor);

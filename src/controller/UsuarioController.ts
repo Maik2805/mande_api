@@ -1,4 +1,5 @@
 import { AppDataSource } from "../data-source";
+import { validate } from "class-validator"
 import { Usuario } from "../entity/Usuario";
 import { Request, Response } from "express";
 import bcrypt = require('bcrypt');
@@ -26,10 +27,15 @@ export async function findById(req: Request, res: Response) {
 };
 
 export async function save(req: Request, res: Response) {
-    console.log(req.user)
     const tempUser: Usuario = req.body;
     const newUsuario = userRepository.create(tempUser);
-    if (newUsuario.celular === req.usuario.celular) {
+    const errors = await validate(newUsuario, { validationError: { target: false } })
+    if (errors.length > 0) {
+        res.status(400);
+        res.send(errors);
+        return;
+    }
+    if (newUsuario.celular === req.user.celular) {
         await usuarioService.save(newUsuario);
         res.send(newUsuario);
     } else {
@@ -42,9 +48,21 @@ export async function save(req: Request, res: Response) {
 export async function addLaborUsuario(req: Request, res: Response) {
     const user: BasicUserInfo = req.user;
     const labor: LaborTrabajador = laborTrabajadorRepository.create(req.body.laborTrabajador as LaborTrabajador)
+    labor.active = true;
     if (!user.isAdmin || !labor.usuarioId) {
         labor.usuarioId = user.celular;
     }
-    const result = await laborTrabajadorRepository.insert(labor);
+    const result = await laborTrabajadorRepository.upsert(labor, ["usuarioId", "laborId"]);
+    res.send(labor);
+}
+
+export async function inactiveLaborUsuario(req: Request, res: Response) {
+    const user: BasicUserInfo = req.user;
+    const labor: LaborTrabajador = laborTrabajadorRepository.create(req.body.laborTrabajador as LaborTrabajador)
+    if (!user.isAdmin || !labor.usuarioId) {
+        labor.usuarioId = user.celular;
+    }
+    const result = await laborTrabajadorRepository.update({ usuarioId: labor.usuarioId, laborId: labor.laborId }, { active: false });
+    labor.active = false;
     res.send(labor);
 }
