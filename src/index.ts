@@ -5,6 +5,8 @@ import * as bodyParser from "body-parser";
 import { AppRoutes } from "./routes";
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const fileupload = require("express-fileupload");
+
 
 AppDataSource.initialize().then(async () => {
     //INICIA CON npm start
@@ -12,6 +14,7 @@ AppDataSource.initialize().then(async () => {
     dotenv.config()
     const app = express();
     app.use(bodyParser.json());
+    app.use(fileupload());
 
     AppRoutes.forEach(route => {
         app[route.method](route.path, (request: Request, response: Response, next: Function) => {

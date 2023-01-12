@@ -151,3 +151,5 @@ mande_api/.gitignore at main · Maik2805/mande_api
 
 tmp/
 temp/
+data_lake/imagenes/*
+!data_lake/imagenes/.gitkeep

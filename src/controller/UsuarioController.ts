@@ -4,6 +4,7 @@ import { Usuario } from "../entity/Usuario";
 import { Request, Response } from "express";
 import bcrypt = require('bcrypt');
 import * as usuarioService from "../service/UsuarioService"
+import * as fileService from "../service/FileService"
 import { Labor } from "../entity/Labor";
 import { LaborTrabajador } from "../entity/LaborTrabajador";
 import { BasicUserInfo } from "../interface/BasicUserInfo";
@@ -44,6 +45,20 @@ export async function save(req: Request, res: Response) {
         return;
     }
 }
+
+export async function saveFotoPerfilUsuario(req: Request, res: Response) {
+    try {
+        const user: BasicUserInfo = req.user;
+        const filename = fileService.uplodadImage(req.files)
+        const result = await userRepository.update({ celular: user.celular }, { fotoPerfil: filename });
+
+        res.send(filename);
+    } catch (error) {
+        res.status(400);
+        res.send(error);
+        return;
+    }
+};
 
 export async function addLaborUsuario(req: Request, res: Response) {
     const user: BasicUserInfo = req.user;
