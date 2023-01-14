@@ -4,4 +4,5 @@ export interface BasicUserInfo {
     documento: string;
     correoElectronico: string;
     isAdmin: boolean;
+    nombre_completo: string;
 }

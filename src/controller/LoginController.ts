@@ -29,7 +29,8 @@ export async function login(req: Request, res: Response) {
                 tipoDocumento: usuario.tipoDocumento,
                 documento: usuario.tipoDocumento,
                 correoElectronico: usuario.correoElectronico,
-                isAdmin: usuario.celular === '3057675078'
+                isAdmin: usuario.celular === '3057675078',
+                nombre_completo: usuario.nombre + " " + usuario.apellido
             }
             res.send(generateAccessToken(userInfo))
         } else {
