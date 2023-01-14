@@ -14,8 +14,9 @@ interface LoginRequest {
 }
 
 export async function login(req: Request, res: Response) {
+    console.log(req.body);
     const data: LoginRequest = req.body;
-    const usuario: Usuario = await usuarioService.findById(data.celular);
+    const usuario: Usuario = await usuarioService.findUserById(data.celular);
     if (!usuario) {
         res.status(400);
         res.send('Credenciales Incorrectas')
@@ -42,7 +43,8 @@ export async function login(req: Request, res: Response) {
 export async function register(req: Request, res: Response) {
     const tempUser: Usuario = req.body;
     try {
-        const newUsuario = userRepository.create(tempUser);
+        const newUsuario: Usuario = userRepository.create(tempUser);
+        newUsuario.estado = "ACTIVO"
         if (!newUsuario.password) {
             res.status(400);
             res.send('Contraseña requerida')
@@ -51,7 +53,7 @@ export async function register(req: Request, res: Response) {
         await bcrypt.genSalt(saltRounds, function (err, salt) {
             bcrypt.hash(newUsuario.password, salt, async function (err, hash) {
                 if (err) throw new Error(err);
-                console.log('SALT: ', salt)
+                // console.log('SALT: ', salt)
                 newUsuario.password = hash;
                 try {
                     const resp = await userRepository.insert(newUsuario);

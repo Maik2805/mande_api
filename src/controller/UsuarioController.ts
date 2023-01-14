@@ -60,6 +60,35 @@ export async function saveFotoPerfilUsuario(req: Request, res: Response) {
     }
 };
 
+export async function saveFotoDocumento(req: Request, res: Response) {
+    try {
+        const user: BasicUserInfo = req.user;
+        const filename = fileService.uplodadImage(req.files)
+        const result = await userRepository.update({ celular: user.celular }, { fotoDocumento: filename });
+
+        res.send(filename);
+    } catch (error) {
+        res.status(400);
+        res.send(error);
+        return;
+    }
+};
+
+export async function saveFotoRecibo(req: Request, res: Response) {
+    try {
+        const user: BasicUserInfo = req.user;
+        const filename = fileService.uplodadImage(req.files)
+        const result = await userRepository.update({ celular: user.celular }, { fotoRecibo: filename });
+
+        res.send(filename);
+    } catch (error) {
+        console.error(error);
+        res.status(400);
+        res.send("Error Cargando la imagen");
+        return;
+    }
+};
+
 export async function addLaborUsuario(req: Request, res: Response) {
     const user: BasicUserInfo = req.user;
     const labor: LaborTrabajador = laborTrabajadorRepository.create(req.body.laborTrabajador as LaborTrabajador)

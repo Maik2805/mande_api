@@ -49,6 +49,16 @@ export const AppRoutes = [
         action: usuarioController.saveFotoPerfilUsuario
     },
     {
+        path: "/usuarios/uploadFotoDocumento",
+        method: "post",
+        action: usuarioController.saveFotoDocumento
+    },
+    {
+        path: "/usuarios/uploadFotoRecibo",
+        method: "post",
+        action: usuarioController.saveFotoRecibo
+    },
+    {
         path: "/labores/all",
         method: "get",
         action: laborController.all

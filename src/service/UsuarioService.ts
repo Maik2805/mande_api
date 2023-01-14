@@ -10,6 +10,14 @@ export async function all(): Promise<Usuario[]> {
 
 export async function findById(id: string): Promise<Usuario> {
     return userRepository.findOneBy({ celular: id });
+};
+
+export async function findUserById(id: string): Promise<Usuario> {
+    if (!id) return null;
+    return userRepository
+        .createQueryBuilder("Usuario")
+        .where("Usuario.celular = :id", { id: id })
+        .getOne()
 
 };
 

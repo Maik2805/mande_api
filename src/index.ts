@@ -6,6 +6,7 @@ import { AppRoutes } from "./routes";
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const fileupload = require("express-fileupload");
+const cors = require('cors');
 
 
 AppDataSource.initialize().then(async () => {
@@ -15,6 +16,9 @@ AppDataSource.initialize().then(async () => {
     const app = express();
     app.use(bodyParser.json());
     app.use(fileupload());
+    app.use(cors({
+        origin: '*'
+    }));
 
     AppRoutes.forEach(route => {
         app[route.method](route.path, (request: Request, response: Response, next: Function) => {
