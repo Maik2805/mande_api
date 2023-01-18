@@ -14,6 +14,8 @@ AppDataSource.initialize().then(async () => {
     //nodemon --exec "npm run start"
     dotenv.config()
     const app = express();
+    const path = require('path')
+    app.use('/public', express.static(path.join(__dirname, 'public')));
     app.use(bodyParser.json());
     app.use(fileupload());
     app.use(cors({

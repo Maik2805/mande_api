@@ -30,6 +30,11 @@ export const AppRoutes = [
         action: usuarioController.findById
     },
     {
+        path: "/usuarios/getPublicInfo/:id",
+        method: "get",
+        action: usuarioController.getPublicInfo
+    },
+    {
         path: "/usuarios",
         method: "post",
         action: usuarioController.save
@@ -77,6 +82,11 @@ export const AppRoutes = [
         path: "/labores/disponibles",
         method: "get",
         action: laborController.listarDisponibles
+    },
+    {
+        path: "/labores/disponiblesRaw",
+        method: "get",
+        action: laborController.listarDisponiblesRaw
     },
     {
         path: "/labores",

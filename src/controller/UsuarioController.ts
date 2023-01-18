@@ -8,6 +8,7 @@ import * as fileService from "../service/FileService"
 import { Labor } from "../entity/Labor";
 import { LaborTrabajador } from "../entity/LaborTrabajador";
 import { BasicUserInfo } from "../interface/BasicUserInfo";
+import { PublicUserInfo } from "../interface/PublicUserInfo";
 
 const userRepository = AppDataSource.getRepository(Usuario);
 const laborTrabajadorRepository = AppDataSource.getRepository(LaborTrabajador);
@@ -18,10 +19,28 @@ export async function all(req: Request, res: Response) {
 };
 
 export async function findById(req: Request, res: Response) {
-    const usuario: Usuario = await usuarioService.findById(req.params.id);
+    const user: BasicUserInfo = req.user;
+
+    if (user.isAdmin || req.params.id == user.celular) {
+        const usuario: Usuario = await usuarioService.findById(req.params.id);
+        if (!usuario) {
+            res.status(404);
+            res.end();
+            return;
+        }
+        res.send(usuario);
+    } else {
+        res.status(403);
+        res.end("Forbidden");
+        return;
+    }
+};
+
+export async function getPublicInfo(req: Request, res: Response) {
+    const usuario: PublicUserInfo = await usuarioService.findPublicInfo(req.params.id);
     if (!usuario) {
         res.status(404);
-        res.end();
+        res.send("Registro no encontrado");
         return;
     }
     res.send(usuario);
@@ -49,6 +68,7 @@ export async function save(req: Request, res: Response) {
 export async function saveFotoPerfilUsuario(req: Request, res: Response) {
     try {
         const user: BasicUserInfo = req.user;
+        const { imagen } = req.files;
         const filename = fileService.uplodadImage(req.files)
         const result = await userRepository.update({ celular: user.celular }, { fotoPerfil: filename });
 

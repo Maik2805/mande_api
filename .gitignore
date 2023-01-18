@@ -10,7 +10,6 @@ Explore
 Maik2805
 /
 mande_api
-Public
 Code
 Issues
 Pull requests
@@ -151,5 +150,5 @@ mande_api/.gitignore at main · Maik2805/mande_api
 
 tmp/
 temp/
-data_lake/imagenes/*
-!data_lake/imagenes/.gitkeep
+src/public/data_lake/imagenes/*
+!src/public/data_lake/imagenes/.gitkeep
