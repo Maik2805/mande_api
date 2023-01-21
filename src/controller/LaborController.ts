@@ -3,6 +3,7 @@ import { AppDataSource } from "../data-source";
 import { Labor } from "../entity/Labor";
 import * as laborService from "../service/LaborService"
 import { LaboresViewFormat } from "../interface/LaboresViewFormat";
+import { BasicUserInfo } from "../interface/BasicUserInfo";
 
 const laborRepository = AppDataSource.getRepository(Labor);
 
@@ -27,7 +28,8 @@ export async function listarDisponibles(req: Request, res: Response) {
 };
 
 export async function listarDisponiblesRaw(req: Request, res: Response) {
-    const labor: Labor[] = await laborService.listarDisponibles();
+    const user: BasicUserInfo = req.user;
+    const labor: Labor[] = await laborService.listarDisponibles(user.celular);
     res.send(formatView(labor));
 };
 

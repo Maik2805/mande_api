@@ -139,6 +139,11 @@ export const AppRoutes = [
         action: servicioController.save
     },
     {
+        path: "/servicios/createBasic",
+        method: "post",
+        action: servicioController.createByTrabajadorClienteCantidad
+    },
+    {
         path: "/pagos/all",
         method: "get",
         action: pagoController.all

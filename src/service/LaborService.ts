@@ -1,4 +1,4 @@
-import { Equal } from "typeorm";
+import { Equal, Not } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { Labor } from "../entity/Labor";
 
@@ -25,17 +25,20 @@ export async function findByUsuario(id: string): Promise<Labor[]> {
     });
 };
 
-export async function listarDisponibles(): Promise<Labor[]> {
-    return await laborRepository.find({
-        where: {
-            laborTrabajador: {
-                active: true,
-                usuario: {
-                    estado: Equal("DISPONIBLE")
-                }
+export async function listarDisponibles(excludeUser?: string): Promise<Labor[]> {
+    const filter = {
+        laborTrabajador: {
+            active: true,
+            usuario: {
+                estado: Equal("DISPONIBLE")
             }
-
-        },
+        }
+    }
+    if (excludeUser) {
+        filter.laborTrabajador.usuario["celular"] = Not(excludeUser);
+    }
+    return await laborRepository.find({
+        where: filter,
         relations: {
             laborTrabajador: {
                 usuario: true
