@@ -50,7 +50,7 @@ export async function save(usuario: Usuario) {
 
 async function getEmployeeRatingCountAndAvg(id: string): Promise<[number, number]> {
     const raw = await userRepository.query(
-        "select sum(s.calificacion) , coalesce(avg(s.calificacion),0) as avg from mande.servicios s where s.id_trabajador = $1 and s.calificacion is not null", [id]
+        "select coalesce(sum(s.calificacion),0) as sum , coalesce(avg(s.calificacion),0) as avg from mande.servicios s where s.id_trabajador = $1 and s.calificacion is not null", [id]
     );
     const result = raw[0];
     return [parseFloat(result.sum), parseFloat(result.avg)];

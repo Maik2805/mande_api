@@ -51,6 +51,7 @@ export async function createByTrabajadorClienteCantidad(laborId: number, trabaja
         .getOne();
     console.log(trabajador);
     if (!trabajador) throw new Error("Labor/Trabajador no encontrado")
+    if (trabajador.estado == "OCUPADO") throw new Error("Trabajador no disponible.")
     const laborDetail: LaborTrabajador = trabajador.laborTrabajador[0];
     const servicio: Servicio = servicioRepository.create({
         id: undefined,

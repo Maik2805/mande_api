@@ -80,10 +80,10 @@ export async function saveFotoPerfilUsuario(req: Request, res: Response) {
     }
 };
 
-export async function saveFotoDocumento(req: Request, res: Response) {
+export async function saveDocumentFile(req: Request, res: Response) {
     try {
         const user: BasicUserInfo = req.user;
-        const filename = fileService.uplodadImage(req.files)
+        const filename = fileService.uplodadDoc(req.files)
         const result = await userRepository.update({ celular: user.celular }, { fotoDocumento: filename });
 
         res.send(filename);
