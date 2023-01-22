@@ -79,6 +79,11 @@ export const AppRoutes = [
         action: laborController.findByUsuario
     },
     {
+        path: "/labores/listarInactivasByUsuario/:id",
+        method: "get",
+        action: laborController.listarInactivasByUsuario
+    },
+    {
         path: "/labores/disponibles",
         method: "get",
         action: laborController.listarDisponibles

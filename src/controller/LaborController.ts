@@ -22,6 +22,12 @@ export async function findByUsuario(req: Request, res: Response) {
     res.send(labor);
 };
 
+export async function listarInactivasByUsuario(req: Request, res: Response) {
+    const user: BasicUserInfo = req.user;
+    const labor: Labor[] = await laborService.listarInactivasByUsuario(user.celular);
+    res.send(labor);
+};
+
 export async function listarDisponibles(req: Request, res: Response) {
     const labor: Labor[] = await laborService.listarDisponibles();
     res.send(labor);
