@@ -8,7 +8,9 @@ export class Servicio {
     @PrimaryGeneratedColumn()
     id: number
 
-    @ManyToOne(() => Labor, (labor) => labor.servicios)
+    @ManyToOne(() => Labor, (labor) => labor.servicios, {
+        eager: true,
+    })
     @JoinColumn({ name: "id_labor" })
     labor: Labor
 

@@ -24,6 +24,7 @@ export async function findByClienteId(clienteId: string): Promise<Servicio[]> {
 };
 
 export async function findByTrabajadorId(trabajadorId: string): Promise<Servicio[]> {
+    if (!trabajadorId) return null;
     return servicioRepository.findBy({ trabajador: { celular: trabajadorId } });
     // const servicios: Servicio[] = await servicioRepository.findBy({ trabajador: { celular: req.params.usuario } });
     // const servicios: Servicio[] = await servicioRepository.find({
@@ -79,3 +80,15 @@ export async function createByTrabajadorClienteCantidad(laborId: number, trabaja
 
     return servicio;
 }
+
+export async function finalizarServicio(idServicio: string, idTrabajador: string) {
+    if (!idServicio || !idTrabajador) return null;
+    let result = servicioRepository.createQueryBuilder()
+        .update(Servicio)
+        .set({ estado: "FINALIZADO" })
+        .where("id = :id", { id: idServicio })
+        .andWhere("id_trabajador = :idTrabajador", { idTrabajador: idTrabajador })
+        .execute()
+    return result;
+
+};

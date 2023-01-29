@@ -23,7 +23,12 @@ export async function findByCliente(req: Request, res: Response) {
 };
 
 export async function findByTrabajador(req: Request, res: Response) {
-    const servicios: Servicio[] = await servicioService.findByTrabajadorId(req.params.usuario);
+    const user: BasicUserInfo = req.user;
+    let trabajadorId: string = user.celular;
+    if (user.isAdmin) {
+        trabajadorId = req.params.usuario;
+    }
+    const servicios: Servicio[] = await servicioService.findByTrabajadorId(trabajadorId);
     res.send(servicios);
 };
 
@@ -53,3 +58,17 @@ export async function createByTrabajadorClienteCantidad(req: Request, res: Respo
         return;
     }
 };
+
+export async function finalizarServicio(req: Request, res: Response) {
+    const user: BasicUserInfo = req.user;
+    if (req.body.idServicio) {
+        await servicioService.finalizarServicio(req.body.idServicio, user.celular)
+        res.send("ok");
+        return;
+    } else {
+        res.status(400);
+        res.send("Parametros Requeridos");
+        return;
+    }
+}
+
