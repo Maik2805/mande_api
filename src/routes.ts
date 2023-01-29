@@ -149,6 +149,11 @@ export const AppRoutes = [
         action: servicioController.finalizarServicio
     },
     {
+        path: "/servicios/calificar",
+        method: "post",
+        action: servicioController.calificarServicio
+    },
+    {
         path: "/servicios/createBasic",
         method: "post",
         action: servicioController.createByTrabajadorClienteCantidad

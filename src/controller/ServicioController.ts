@@ -33,7 +33,7 @@ export async function findByTrabajador(req: Request, res: Response) {
 };
 
 export async function save(req: Request, res: Response) {
-    const servicio: Servicio[] = servicioRepository.create(req.body);
+    const servicio = servicioRepository.create(req.body as Servicio);
     await servicioService.save(servicio);
     res.send(servicio);
 };
@@ -72,3 +72,25 @@ export async function finalizarServicio(req: Request, res: Response) {
     }
 }
 
+export async function calificarServicio(req: Request, res: Response) {
+    const user: BasicUserInfo = req.user;
+    if (req.body.idServicio && req.body.calificacion) {
+        const servicio: Servicio = await servicioService.findById(req.body.idServicio);
+        if (servicio && servicio.cliente.celular == user.celular && servicio.estado == "FINALIZADO") {
+            servicio.calificacion = parseInt(req.body.calificacion);
+            servicio.estado = "CALIFICADO";
+            await servicioService.save(servicio);
+            res.send("ok");
+            return;
+        } else {
+            res.sendStatus(403);
+            res.send("Operación No Permitida");
+            return;
+        }
+    }
+
+    res.status(400);
+    res.send("Parametros Requeridos");
+    return;
+
+}

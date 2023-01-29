@@ -39,8 +39,8 @@ export async function findByTrabajadorId(trabajadorId: string): Promise<Servicio
     // });
 };
 
-export async function save(servicios: Servicio[]) {
-    return servicioRepository.save(servicios);
+export async function save(servicio: Servicio) {
+    return servicioRepository.save(servicio);
 };
 
 export async function createByTrabajadorClienteCantidad(laborId: number, trabajadorId: string, celularId: string, cantidad: number): Promise<Servicio> {
@@ -85,7 +85,10 @@ export async function finalizarServicio(idServicio: string, idTrabajador: string
     if (!idServicio || !idTrabajador) return null;
     let result = servicioRepository.createQueryBuilder()
         .update(Servicio)
-        .set({ estado: "FINALIZADO" })
+        .set({
+            estado: "FINALIZADO",
+            fechaTerminacion: new Date()
+        })
         .where("id = :id", { id: idServicio })
         .andWhere("id_trabajador = :idTrabajador", { idTrabajador: idTrabajador })
         .execute()
