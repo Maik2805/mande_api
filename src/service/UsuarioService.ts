@@ -1,6 +1,5 @@
 import { AppDataSource } from "../data-source";
 import { Usuario } from "../entity/Usuario";
-import { Equal } from "typeorm";
 import { PublicUserInfo } from "../interface/PublicUserInfo";
 
 const userRepository = AppDataSource.getRepository(Usuario);
@@ -54,4 +53,28 @@ async function getEmployeeRatingCountAndAvg(id: string): Promise<[number, number
     );
     const result = raw[0];
     return [parseFloat(result.sum), parseFloat(result.avg)];
+}
+
+export async function validateTrabajadorDisponible(idUsuario: string) {
+    console.log("Validando DIsponibilidad de Trabajador: " + idUsuario)
+    const user = await userRepository.findOne(
+        {
+            where: {
+                celular: idUsuario
+            }
+        });
+    if (user) {
+        if (user.fotoPerfil && user.fotoDocumento) {
+            const raw = await userRepository.query(
+                " select count(1) from mande.servicios s where s.id_trabajador = $1 and estado = 'EN PROCESO'",
+                [user.celular]
+            );
+            const result = raw[0];
+            if (parseInt(result.cantidad) < 1) {
+                await userRepository.update({ celular: idUsuario }, { estado: "DISPONIBLE" });
+            }
+        }
+    } else {
+        return null;
+    }
 }

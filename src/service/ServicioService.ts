@@ -5,6 +5,7 @@ import { Equal } from "typeorm";
 import { Labor } from "../entity/Labor";
 import { Usuario } from "../entity/Usuario";
 import { LaborTrabajador } from "../entity/LaborTrabajador";
+import * as usuarioService from "../service/UsuarioService"
 
 const servicioRepository = AppDataSource.getRepository(Servicio);
 const laborRepository = AppDataSource.getRepository(Labor);
@@ -26,17 +27,6 @@ export async function findByClienteId(clienteId: string): Promise<Servicio[]> {
 export async function findByTrabajadorId(trabajadorId: string): Promise<Servicio[]> {
     if (!trabajadorId) return null;
     return servicioRepository.findBy({ trabajador: { celular: trabajadorId } });
-    // const servicios: Servicio[] = await servicioRepository.findBy({ trabajador: { celular: req.params.usuario } });
-    // const servicios: Servicio[] = await servicioRepository.find({
-    //     where: {
-    //         trabajador: {
-    //             celular: req.params.usuario
-    //         }
-    //     },
-    //     relations: {
-    //         cliente: true
-    //     }
-    // });
 };
 
 export async function save(servicio: Servicio) {
@@ -83,7 +73,7 @@ export async function createByTrabajadorClienteCantidad(laborId: number, trabaja
 
 export async function finalizarServicio(idServicio: string, idTrabajador: string) {
     if (!idServicio || !idTrabajador) return null;
-    let result = servicioRepository.createQueryBuilder()
+    let result = await servicioRepository.createQueryBuilder()
         .update(Servicio)
         .set({
             estado: "FINALIZADO",
@@ -91,7 +81,8 @@ export async function finalizarServicio(idServicio: string, idTrabajador: string
         })
         .where("id = :id", { id: idServicio })
         .andWhere("id_trabajador = :idTrabajador", { idTrabajador: idTrabajador })
-        .execute()
+        .execute();
+    await usuarioRepository.update({ celular: idTrabajador }, { estado: "DISPONIBLE" });
     return result;
 
 };

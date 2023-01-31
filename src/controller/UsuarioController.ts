@@ -71,6 +71,7 @@ export async function saveFotoPerfilUsuario(req: Request, res: Response) {
         const { imagen } = req.files;
         const filename = fileService.uplodadImage(req.files)
         const result = await userRepository.update({ celular: user.celular }, { fotoPerfil: filename });
+        usuarioService.validateTrabajadorDisponible(user.celular)
 
         res.send(filename);
     } catch (error) {
@@ -85,7 +86,7 @@ export async function saveDocumentFile(req: Request, res: Response) {
         const user: BasicUserInfo = req.user;
         const filename = fileService.uplodadDoc(req.files)
         const result = await userRepository.update({ celular: user.celular }, { fotoDocumento: filename });
-
+        usuarioService.validateTrabajadorDisponible(user.celular)
         res.send(filename);
     } catch (error) {
         res.status(400);
