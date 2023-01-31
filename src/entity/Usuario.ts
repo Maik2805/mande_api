@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm"
-import { Geometry } from 'geojson';
+import { IsEmail } from "class-validator"
+import { Point } from 'geojson';
 import { MedioPago } from "./MedioPago";
 import { Servicio } from "./Servicio";
 import { LaborTrabajador } from "./LaborTrabajador";
@@ -8,7 +9,7 @@ import { LaborTrabajador } from "./LaborTrabajador";
 export class Usuario {
 
     @PrimaryColumn()
-    celular: String
+    celular: string
 
     @Column({ name: "tipo_documento" })
     tipoDocumento: string
@@ -23,7 +24,11 @@ export class Usuario {
     apellido: string
 
     @Column({ name: "correo_electronico" })
+    @IsEmail()
     correoElectronico: string
+
+    @Column({ name: "passhash" })
+    password: string
 
     @Column({ type: 'timestamp', name: "fecha_nacimiento" })
     fechaNacimiento: Date
@@ -40,8 +45,21 @@ export class Usuario {
     @Column()
     direccion: string
 
-    @Column({ type: 'point' })
-    ubicacion: Geometry
+    /**
+     * "ubicacion": {
+            "type": "Point",
+            "coordinates": [
+                Longitude,
+                Latitude
+            ]
+        }
+     */
+    @Column({
+        type: 'geometry', spatialFeatureType: 'Point',
+        srid: 4326,
+        nullable: true
+    })
+    ubicacion: Point
 
     @Column()
     estado: string
@@ -55,6 +73,8 @@ export class Usuario {
     @OneToMany(() => Servicio, (servicio) => servicio.cliente)
     serviciosAdquiridos: Servicio[]
 
-    @OneToMany(() => LaborTrabajador, (labor) => labor.usuario)
-    laborTrabajador!: LaborTrabajador[]
+    @OneToMany(() => LaborTrabajador, (labor) => labor.usuario, {
+        eager: true,
+    })
+    laborTrabajador: LaborTrabajador[]
 }
